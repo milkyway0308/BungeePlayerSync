@@ -17,6 +17,9 @@ public class PlayerSyncIncompleteEvent extends BPSBasedEvent {
         return section;
     }
 
+    public boolean isSyncOf(Class target) {
+        return section.equals(target.getName());
+    }
     @Override
     public HandlerList getHandlers() {
         return handlerList;

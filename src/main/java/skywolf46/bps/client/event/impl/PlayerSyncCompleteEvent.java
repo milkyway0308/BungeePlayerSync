@@ -8,6 +8,7 @@ import java.util.UUID;
 public class PlayerSyncCompleteEvent extends BPSBasedEvent {
     private static HandlerList handlerList = new HandlerList();
     private String section;
+
     public PlayerSyncCompleteEvent(UUID target, String section) {
         super(target);
         this.section = section;
@@ -15,6 +16,10 @@ public class PlayerSyncCompleteEvent extends BPSBasedEvent {
 
     public String getSection() {
         return section;
+    }
+
+    public boolean isSyncOf(Class target) {
+        return section.equals(target.getName());
     }
 
     @Override

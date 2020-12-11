@@ -28,7 +28,7 @@ public class BPSGlobalAPI {
         console = BSLCoreAPI.writer("BungeePlayerSync");
 //        BSLCoreAPI.registerPacket(BPSVariable.PACKET_SYNC_START, new PacketPlayerSyncStart(null, null));
         BSLCoreAPI.registerPacket(BPSVariable.PACKET_SYNC_END, new PacketPlayerSyncEnd(null, null));
-        BSLCoreAPI.registerPacket(BPSVariable.PACKET_SYNC_FULLY_END, new PacketPlayerSyncEnd(null, null));
+        BSLCoreAPI.registerPacket(BPSVariable.PACKET_SYNC_FULLY_END, new PacketPlayerSyncFullyEnd(new ArrayList<>(), null));
         BSLCoreAPI.registerPacket(BPSVariable.PACKET_SYNC_START, new PacketPlayerSyncStart(null));
         BSLCoreAPI.writer("BungeePlayerSync").printText("Initializing");
 
@@ -54,8 +54,8 @@ public class BPSGlobalAPI {
         });
         BSLCoreAPI.getPacket(BPSVariable.PACKET_SYNC_END).register((packet, buf) -> {
             PacketPlayerSyncEnd end = (PacketPlayerSyncEnd) packet;
-            ByteBufUtility.writeUUID(buf, end.getTarget());
             ByteBufUtility.writeString(buf, end.getSection());
+            ByteBufUtility.writeUUID(buf, end.getTarget());
         });
 
         BSLCoreAPI.getPacket(BPSVariable.PACKET_SYNC_FULLY_END).register((packet, buf) -> {
@@ -71,5 +71,13 @@ public class BPSGlobalAPI {
 
     public static AbstractConsoleWriter writer() {
         return console;
+    }
+
+    public static void syncComplete(UUID target, Class section) {
+        BSLCoreAPI.bungee().send(new PacketPlayerSyncEnd(section.getName(), target));
+    }
+
+    public static void syncEnd(UUID player) {
+        BSLCoreAPI.bungee().send(new PacketPlayerSyncFullyEnd(getSyncTargets(), player));
     }
 }

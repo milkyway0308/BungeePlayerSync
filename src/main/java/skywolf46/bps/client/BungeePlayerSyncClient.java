@@ -2,6 +2,7 @@ package skywolf46.bps.client;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import skywolf46.bps.client.event.impl.PlayerInitialJoinEvent;
 import skywolf46.bps.client.event.impl.PlayerSyncCompleteEvent;
 import skywolf46.bps.client.event.impl.PlayerSyncEndEvent;
 import skywolf46.bps.client.event.impl.PlayerSyncIncompleteEvent;
@@ -9,6 +10,7 @@ import skywolf46.bps.global.BPSVariable;
 import skywolf46.bps.global.api.BPSGlobalAPI;
 import skywolf46.bps.global.packets.PacketPlayerSyncEnd;
 import skywolf46.bps.global.packets.PacketPlayerSyncFullyEnd;
+import skywolf46.bps.global.packets.PacketPlayerSyncStart;
 import skywolf46.bsl.global.api.BSLCoreAPI;
 import skywolf46.commandannotation.CommandAnnotation;
 
@@ -32,6 +34,14 @@ public class BungeePlayerSyncClient extends JavaPlugin {
 
             Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
                 Bukkit.getPluginManager().callEvent(new PlayerSyncCompleteEvent(end.getTarget(), end.getSection()));
+            });
+        });
+
+        BSLCoreAPI.getPacket(BPSVariable.PACKET_SYNC_START).attachListener((chan, packet) -> {
+            PacketPlayerSyncStart end = (PacketPlayerSyncStart) packet;
+
+            Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
+                Bukkit.getPluginManager().callEvent(new PlayerInitialJoinEvent(end.getTarget()));
             });
         });
 

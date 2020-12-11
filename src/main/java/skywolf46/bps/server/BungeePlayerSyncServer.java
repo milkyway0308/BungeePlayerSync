@@ -21,7 +21,7 @@ public class BungeePlayerSyncServer extends Plugin {
             PacketPlayerSyncEnd end = (PacketPlayerSyncEnd) packet;
             ProxiedPlayer pp = BungeeCord.getInstance().getPlayer(end.getTarget());
             if (pp == null) {
-                BPSGlobalAPI.writer().printError("Cannot process sync of player " + end.getTarget() + " : Player is offline");
+//                BPSGlobalAPI.writer().printError("Cannot process sync of player " + end.getTarget() + " : Player is offline");
                 return;
             }
             int port = ((InetSocketAddress) pp.getServer().getInfo().getSocketAddress()).getPort();
@@ -39,7 +39,7 @@ public class BungeePlayerSyncServer extends Plugin {
             PacketPlayerSyncEnd end = (PacketPlayerSyncEnd) packet;
             ProxiedPlayer pp = BungeeCord.getInstance().getPlayer(end.getTarget());
             if (pp == null) {
-                BPSGlobalAPI.writer().printError("Cannot process sync of player " + end.getTarget() + " : Player is offline");
+//                BPSGlobalAPI.writer().printError("Cannot process sync of player " + end.getTarget() + " : Player is offline");
                 return;
             }
             int port = ((InetSocketAddress) pp.getServer().getInfo().getSocketAddress()).getPort();
